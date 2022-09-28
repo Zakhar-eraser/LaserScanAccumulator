@@ -11,5 +11,7 @@ file(GLOB catkin_LIBRARIES
      "/opt/ros/noetic/lib/*.so"
 )
 
+add_library(laserscan_accumulator STATIC src/LaserScanAccumulator.cpp)
+
 add_executable(accum src/main.cpp)
 target_link_libraries(accum ${catkin_LIBRARIES})
