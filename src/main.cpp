@@ -1,10 +1,8 @@
-#include <ros/ros.h>
-#include <sensor_msgs/LaserScan.h>
-#include <geometry_msgs/PoseStamped.h>
 #include "LaserScanAccumulator.hpp"
 
-int main() {
-
-
+int main(int argc, char **argv) {
+    ros::init(argc, argv, "pointcloud_accumulator");
+    LaserScanAccumulator accum("ray/scan", "/mavros/local_position/pose", "accumulated_pointcloud");
+    ros::spin();
     return 0;
 }

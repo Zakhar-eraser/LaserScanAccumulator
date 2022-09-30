@@ -12,6 +12,7 @@ file(GLOB catkin_LIBRARIES
 )
 
 add_library(laserscan_accumulator STATIC src/LaserScanAccumulator.cpp)
+target_link_libraries(laserscan_accumulator ${catkin_LIBRARIES})
 
 add_executable(accum src/main.cpp)
-target_link_libraries(accum ${catkin_LIBRARIES})
+target_link_libraries(accum laserscan_accumulator)
