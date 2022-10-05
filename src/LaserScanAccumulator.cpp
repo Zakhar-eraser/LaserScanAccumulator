@@ -49,9 +49,9 @@ LaserScanAccumulator::~LaserScanAccumulator() {
 
 bool LaserScanAccumulator::checkPose(Orientation orient) {
     bool out = true;
-    for (int i = orientationsDict.size() - 1; (i >= 0) && out; i++) {
-        if ((fabs(orient.p - orientationsDict[i].p) > angleDelim) ||
-            (fabs(orient.r - orientationsDict[i].r) > angleDelim)) {
+    for (int i = orientationsDict.size() - 1; (i >= 0) && out; i--) {
+        if ((fabs(orient.p - orientationsDict[i].p) < angleDelim) &&
+            (fabs(orient.r - orientationsDict[i].r) < angleDelim)) {
             out = false;
         }
     }
@@ -64,7 +64,7 @@ void LaserScanAccumulator::LaserScanCallback(sensor_msgs::LaserScanConstPtr scan
     Orientation lastOrient = quatToEuler(lastPose.pose.orientation);
     if (checkPose(lastOrient)) {
         size_t size = pcMod->size();
-        pcMod->resize(scan->ranges.size() - 1);
+        pcMod->resize(size + scan->ranges.size() - 1);
         sensor_msgs::PointCloud2Iterator<float> iter(pc, "x");
         InsertScanIntoPointCloud(iter + size, scan);
         pc.header.stamp = ros::Time::now();
